@@ -64,6 +64,28 @@ void new_game(GtkWidget *btn,Plate *p)
 	food(p);
 }
 
+void over_game(Plate *p,char *m)
+{
+    GtkWidget *area,*label;
+    p->dialog = gtk_dialog_new_with_buttons("",NULL,GTK_DIALOG_MODAL,
+        "OK",0,NULL);
+    area = gtk_dialog_get_content_area(GTK_DIALOG(p->dialog));
+    label = gtk_label_new(m);
+    g_signal_connect_swapped(p->dialog,"response",
+        G_CALLBACK(gtk_widget_destroy),p->dialog);
+    gtk_container_add(GTK_CONTAINER(area),label);
+    gtk_widget_show_all(p->dialog);
+}
+
+void pause_game(GtkWidget *btn,gpointer data)
+{
+	Plate *p = (Plate *)data;
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(btn)))
+		p->state = 3;
+	else 
+		p->state = 1;
+}
+
 void set_map(GtkWidget *dr,cairo_t *cr,Map m[][MAP_LEN])
 {
     FILE *state,*map;
@@ -83,15 +105,6 @@ void set_map(GtkWidget *dr,cairo_t *cr,Map m[][MAP_LEN])
             m[i][j].dir = -1;
 		}
 	}
-}
-
-void pause_game(GtkWidget *btn,gpointer data)
-{
-	Plate *p = (Plate *)data;
-	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(btn)))
-		p->state = 3;
-	else 
-		p->state = 1;
 }
 
 void showscore(GtkWidget *l,int score)

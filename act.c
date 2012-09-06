@@ -61,6 +61,7 @@ gboolean automove(Plate *p)
 	modify(&r,&c);
 	if(p->map[r][c].exist){
 		p->state = 0;
+        over_game(p,"Game Over");
 		return TRUE;
 	}
 	draw_body(p->dr,p->cr,headr,headc,p->snake[i].color,p->map[headr][headc].dir);
