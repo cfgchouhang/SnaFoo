@@ -14,28 +14,28 @@
 #define SNAKE_NUM 1
 
 typedef struct map{
-	int barrier;
-	int food;
-	int exist;
-	int dir;
+    int barrier;
+    int food;
+    int exist;
+    int dir;
 }Map;
 
 typedef struct snake{
-	unsigned int posi[SNAKE_MAX][2];
-	unsigned int h,t;
-	double color[3][3];
-	int dir,dirx,diry;// dir 0,left 1,right 2,up 3,down
+    unsigned int posi[SNAKE_MAX][2];
+    unsigned int h,t;
+    double color[3][3];
+    int dir,dirx,diry;// dir 0,left 1,right 2,up 3,down
 }Snake;
 
 typedef struct plate{
-	GtkWidget *dr,*label,*dialog;
-	cairo_t *cr;
-	guint32 interval;
-	guint timeoutid;
-	Snake snake[2];
-	Map map[MAP_LEN][MAP_LEN];
-	int state,keyevent;
-	int score;
+    GtkWidget *dr,*label,*dialog;
+    cairo_t *cr;
+    guint32 interval;
+    guint timeoutid;
+    Snake snake[2];
+    Map map[MAP_LEN][MAP_LEN];
+    int state,keyevent;
+    int score;
 }Plate;
 
 //set
@@ -51,8 +51,8 @@ void showscore(GtkWidget *l,int s);
 void draw(GtkWidget *dr,cairo_t *cr,int row,int col,int w,int h,float r,float g,float b);
 void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[]);
 void draw_head(GtkWidget *dr,cairo_t *cr,int row,int col,int dir,double rgb[3][3]);
-void draw_body(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir,int s_dir);
-void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir,int s_dir);
+void draw_body(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir);
+void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir);
 void draw_detail(cairo_t *cr,int posi[][2],double rgb[3]);
 void draw_food(GtkWidget *dr,cairo_t *cr,int row,int col);
 void draw_unit(GtkWidget *dr,cairo_t *cr,int row,int col,float r,float g,float b);
