@@ -80,6 +80,7 @@ void over_game(Plate *p,char *m)
 void pause_game(GtkWidget *btn,gpointer data)
 {
 	Plate *p = (Plate *)data;
+    if(!p->state)return ;
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(btn)))
 		p->state = 3;
 	else 
