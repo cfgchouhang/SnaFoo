@@ -20,13 +20,13 @@ void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[])
 		draw_head(dr,cr,s[i].posi[h][0],s[i].posi[h][1],s[i].dir,s[i].color);
 		
 		while(t<h){
-			draw_body(dr,cr,s[i].posi[t][0],s[i].posi[t][1],s[i].color,-1);
+			draw_body(dr,cr,s[i].posi[t][0],s[i].posi[t][1],s[i].color,-1,1);
 			t++;
 		}
 	}
 }
 
-void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir){
+void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir,int s_dir){
     int posi[5][2];
     row *= UNIT;
     col *= UNIT;
@@ -38,7 +38,7 @@ void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int di
     cairo_destroy(cr);
     cr = gdk_cairo_create(gtk_widget_get_window(dr));
 	cairo_set_source_rgb(cr,rgb[0][0],rgb[0][1],rgb[0][2]);
-    if(!dir){
+    if(!dir&&(s_dir!=1||s_dir!=2)){
         cairo_move_to(cr,col,row);
         cairo_line_to(cr,col+UNIT/2,row);
         cairo_arc(cr,col+UNIT/2,row+UNIT/2,UNIT/2,-M_PI/2,0);
@@ -47,7 +47,7 @@ void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int di
         cairo_close_path(cr);
         cairo_fill(cr);
     }
-    else if(dir==1){
+    else if(dir==1&&(s_dir!=0||s_dir!=2)){
         cairo_move_to(cr,col+UNIT,row);
         cairo_line_to(cr,col+UNIT/2,row);
         cairo_arc_negative(cr,col+UNIT/2,row+UNIT/2,UNIT/2,M_PI*3/2,M_PI);
@@ -57,7 +57,7 @@ void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int di
         cairo_fill(cr);
 
     }
-    else if(dir==2){
+    else if(dir==2&&(s_dir!=0||s_dir!=3)){
         cairo_move_to(cr,col,row);
         cairo_line_to(cr,col,row+UNIT/2);
         cairo_arc_negative(cr,col+UNIT/2,row+UNIT/2,UNIT/2,M_PI,M_PI/2);
@@ -66,7 +66,7 @@ void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int di
         cairo_close_path(cr);
         cairo_fill(cr);
     }
-    else if(dir==3){
+    else if(dir==3&&(s_dir!=1||s_dir!=3)){
         cairo_move_to(cr,col+UNIT,row);
         cairo_line_to(cr,col+UNIT,row+UNIT/2);
         cairo_arc(cr,col+UNIT/2,row+UNIT/2,UNIT/2,0,M_PI/2);
@@ -77,10 +77,10 @@ void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int di
     }
     }
 }
-void draw_body(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir)
+void draw_body(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir,int s_dir)
 {
 	int posi[5][2];
-    draw_turn(dr,cr,row,col,rgb,dir);
+    draw_turn(dr,cr,row,col,rgb,dir,s_dir);
 	row *= UNIT;
 	col *= UNIT;
 	posi[0][0] = row+UNIT/2; posi[0][1] = col;

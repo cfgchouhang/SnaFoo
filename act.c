@@ -63,7 +63,7 @@ gboolean automove(Plate *p)
 		p->state = 0;
 		return TRUE;
 	}
-	draw_body(p->dr,p->cr,headr,headc,p->snake[i].color,p->map[headr][headc].dir);
+	draw_body(p->dr,p->cr,headr,headc,p->snake[i].color,p->map[headr][headc].dir,p->snake[i].dir);
 	push(p,i,r,c);
 	draw_head(p->dr,p->cr,r,c,p->snake[i].dir,p->snake[i].color);
 	if(p->map[r][c].food){
