@@ -28,7 +28,7 @@ typedef struct snake{
 }Snake;
 
 typedef struct plate{
-	GtkWidget *dr,*label;
+	GtkWidget *dr,*label,*dialog;
 	cairo_t *cr;
 	guint32 interval;
 	guint timeoutid;
@@ -41,6 +41,7 @@ typedef struct plate{
 //set
 void init_plate(Plate *p,GtkWidget *fixed,int w,int h);
 void new_game(GtkWidget *btn,Plate *p);
+void over_game(Plate *p,char *m);
 void set_map(GtkWidget *dr,cairo_t *cr,Map m[MAP_LEN][MAP_LEN]);
 void pause_game(GtkWidget *btn,gpointer d);
 gboolean expose(GtkWidget *w,cairo_t *cr,Plate *p);
