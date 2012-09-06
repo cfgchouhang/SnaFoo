@@ -46,6 +46,7 @@ void new_game(GtkWidget *btn,Plate *p)
 	p->snake[1].dirx = -1;
 	p->snake[1].diry = 0;
 	p->score = 0;
+    showscore(p->label,p->score);
 	
 	for(i=0;i<SNAKE_NUM;i++){
 		p->snake[i].h = 0;
