@@ -42,8 +42,8 @@ typedef struct plate{
 void init_plate(Plate *p,GtkWidget *fixed,int w,int h);
 void new_game(GtkWidget *btn,Plate *p);
 void over_game(Plate *p,char *m);
-void set_map(GtkWidget *dr,cairo_t *cr,Map m[MAP_LEN][MAP_LEN]);
 void pause_game(GtkWidget *btn,gpointer d);
+void set_map(GtkWidget *dr,cairo_t *cr,Map m[MAP_LEN][MAP_LEN]);
 gboolean expose(GtkWidget *w,cairo_t *cr,Plate *p);
 void showscore(GtkWidget *l,int s);
 
