@@ -20,15 +20,18 @@ int main(int argc,char *argv[])
     sbtn = gtk_button_new_with_label("New");
     pbtn = gtk_toggle_button_new_with_label("Pause");
     ebtn = gtk_button_new_with_label("End");
+    plate.mbtn = gtk_toggle_button_new_with_label("2P");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pbtn),FALSE);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(plate.mbtn),FALSE);
     plate.label = gtk_label_new("0");
     gtk_label_set_markup(GTK_LABEL(plate.label),"<span font_desc=\"12\"\
                          foreground=\"black\">Score : 0</span>");
     
     gtk_box_pack_start(GTK_BOX(box),sbtn,TRUE,FALSE,10);
     gtk_box_pack_start(GTK_BOX(box),pbtn,TRUE,FALSE,10);
-    gtk_box_pack_start(GTK_BOX(box),ebtn,TRUE,FALSE,20);
-    gtk_box_pack_start(GTK_BOX(box),plate.label,TRUE,FALSE,5);
+    gtk_box_pack_start(GTK_BOX(box),ebtn,TRUE,FALSE,15);
+    gtk_box_pack_start(GTK_BOX(box),plate.mbtn,TRUE,FALSE,20);
+    gtk_box_pack_end(GTK_BOX(box),plate.label,TRUE,FALSE,20);
     gtk_fixed_put(GTK_FIXED(fixed),box,0,0);
     init_plate(&plate,fixed,WIDTH,HEIGHT);
     
@@ -45,6 +48,8 @@ int main(int argc,char *argv[])
                      G_CALLBACK(gtk_main_quit),NULL);
     g_signal_connect(pbtn,"clicked",
                      G_CALLBACK(pause_game),&plate);
+    g_signal_connect(plate.mbtn,"clicked",
+                     G_CALLBACK(change_mode),&plate);
 
     gtk_container_add(GTK_CONTAINER(window),fixed);
     gtk_widget_show_all(window);

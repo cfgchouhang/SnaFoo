@@ -8,10 +8,10 @@ void draw(GtkWidget *dr,cairo_t *cr,int x,int y,int w,int h,float r,float g,floa
     gtk_widget_draw(dr,cr);
 }
 
-void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[])
+void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[],int n)
 {
     int i;
-    for(i=0;i<SNAKE_NUM;i++){
+    for(i=0;i<n;i++){
         int h = s[i].h,t = s[i].t+1;
         /*draw_unit(dr,cr,s[i].posi[h][0]
                    ,s[i].posi[h][1]
@@ -177,7 +177,7 @@ void draw_head(GtkWidget *dr,cairo_t *cr,int row,int col,int dir,double rgb[3][3
 
 void draw_food(GtkWidget *dr,cairo_t *cr,int row,int col)
 {
-    draw_unit(dr,cr,row*UNIT,col*UNIT,0,0,1.0);
+    draw_unit(dr,cr,row*UNIT,col*UNIT,1.0,0,0);
 }
 
 void draw_detail(cairo_t *cr,int posi[][2],double color[3])

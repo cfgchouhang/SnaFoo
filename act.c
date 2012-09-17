@@ -48,7 +48,7 @@ gboolean automove(Plate *p)
     while(p->state==2);
     p->state = 2;
     int i;
-    for(i=0;i<SNAKE_NUM;i++){
+    for(i=0;i<p->mode;i++){
     pop(p,i);
     int headr = p->snake[i].posi[p->snake[i].h][0];
     int headc = p->snake[i].posi[p->snake[i].h][1];
@@ -117,6 +117,22 @@ gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p)
         case 0xff54:
             if(p->snake[0].dirx!=0)
                 turn_down(p,0);break;
+            }
+    if(p->mode==2){
+        switch(keyval){
+        case 0x006a:
+            if(p->snake[1].diry!=0)
+                turn_left(p,1);break;
+        case 0x006b:
+            if(p->snake[1].dirx!=0)
+                turn_down(p,1);break;
+        case 0x006c:
+            if(p->snake[1].diry!=0)
+                turn_right(p,1);break;
+        case 0x0069:
+            if(p->snake[1].dirx!=0)
+                turn_up(p,1);break;
+        }
     }
     p->state = 1;
     return FALSE;

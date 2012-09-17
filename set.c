@@ -8,11 +8,11 @@ void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
     gtk_widget_set_app_paintable(p->dr,TRUE);
     gtk_fixed_put(GTK_FIXED(fixed),p->dr,0,35);
     p->state = 0;
+    p->mode = 1;
     p->interval = 150;
     for(i=0;i<SNAKE_NUM;i++){
         p->snake[i].h = 0;
-        p->snake[i].t = 0;
-    }
+        p->snake[i].t = 0; }
     for(i=0;i<3;i++){
         p->snake[0].color[i][0] = 0;
         p->snake[0].color[i][2] = 0;
@@ -42,8 +42,8 @@ void new_game(GtkWidget *btn,Plate *p)
     p->snake[0].dirx = 1;
     p->snake[0].diry = 0;
     
-    p->snake[1].dir = 0;
-    p->snake[1].dirx = -1;
+    p->snake[1].dir = 1;
+    p->snake[1].dirx = 1;
     p->snake[1].diry = 0;
     p->score = 0;
     showscore(p->label,p->score);
@@ -53,14 +53,8 @@ void new_game(GtkWidget *btn,Plate *p)
         p->snake[i].t = 0;
     }
     draw(p->dr,p->cr,0,0,WIDTH,HEIGHT,0,0,0);
-    set_map(p->dr,p->cr,p->map);
-    for(i=12;i<19;i++)
-        push(p,0,19,i);
-    if(SNAKE_NUM>1)
-        for(i=18;i>=12;i--)
-            push(p,1,20,i);
-    
-    draw_snake(p->dr,p->cr,p->snake);
+    set_map_snake(p->dr,p->cr,p);
+    draw_snake(p->dr,p->cr,p->snake,p->mode);
     food(p);
 }
 
@@ -87,16 +81,27 @@ void pause_game(GtkWidget *btn,gpointer data)
         p->state = 1;
 }
 
-void set_map(GtkWidget *dr,cairo_t *cr,Map m[][MAP_LEN])
+void set_map_snake(GtkWidget *dr,cairo_t *cr,Plate *p)
 {
     FILE *state,*map;
+    Map (*m)[MAP_LEN] = p->map;
     char load[10],load_map[20];
-    int i,j;
+    int i,j,k;
     state = fopen("./Data/game_state","r");
     fscanf(state,"%s",load);
     strcpy(load_map,"./Data/map/");
     strcat(load_map,load);
     map = fopen(load_map,"r");
+    fscanf(map,"%d %d %d",&i,&j,&k);
+    while(j<k)
+        push(p,0,i,j++);
+    if(p->mode){
+        fscanf(map,"%d %d %d",&i,&j,&k);
+        while(j<k)
+            push(p,1,i,j++);
+    }
+    else
+        fseek(map,9,SEEK_CUR);
     for(i=0;i<MAP_LEN;i++){
         for(j=0;j<MAP_LEN;j++){
             fscanf(map,"%1d",&m[i][j].exist);
@@ -116,6 +121,15 @@ void showscore(GtkWidget *l,int score)
     gtk_label_set_markup(GTK_LABEL(l),s);
 }
 
+void change_mode(GtkWidget *btn,Plate *p)
+{
+    if(!p->state){
+        if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(btn))) 
+            p->mode = 2;
+        else
+            p->mode = 1;
+    }
+}
 /*gboolean expose(GtkWidget *widget,cairo_t *cr,Plate *p)
 {
     p->cr = cr;
