@@ -47,7 +47,10 @@ void new_game(GtkWidget *btn,Plate *p)
     p->snake[1].diry = 0;
     p->score = 0;
     showscore(p->label,p->score);
-    
+    if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(p->mbtn)))
+        p->mode = 2;
+    else
+        p->mode = 1;
     for(i=0;i<SNAKE_NUM;i++){
         p->snake[i].h = 0;
         p->snake[i].t = 0;
@@ -130,12 +133,3 @@ void change_mode(GtkWidget *btn,Plate *p)
             p->mode = 1;
     }
 }
-/*gboolean expose(GtkWidget *widget,cairo_t *cr,Plate *p)
-{
-    p->cr = cr;
-    if(p->snake.h!=p->snake.t)
-        draw_snake(p->dr,p->cr,&p->snake);
-    return TRUE;
-}*/
-
-
