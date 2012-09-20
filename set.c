@@ -60,10 +60,21 @@ void new_game(GtkWidget *btn,Plate *p)
     food(p);
 }
 
+void win_game()
+{
+    FILE *s = fopen("./Data/game_state","r");
+    FILE *o = fopen("./Data/game_state","w");
+    char c[10];
+    fscanf(s,"%s",c);
+    fprintf(s,"%s%d","map");
+}
+
 void response(Plate *p){
     gtk_widget_destroy(p->dialog);
-    if(p->win)
+    if(p->win){
+       // win_game();
         new_game(p->btn[0],p);
+    }
 }
 void show_result(Plate *p,char *m)
 {
