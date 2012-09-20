@@ -35,18 +35,19 @@ typedef struct plate{
     Snake snake[2];
     Map map[MAP_LEN][MAP_LEN];
     int state,keyevent;
-    int score,mode;
+    int score,mode,pass,win;
 }Plate;
 
 //set
 void init_plate(Plate *p,GtkWidget *fixed,int w,int h);
 void new_game(GtkWidget *btn,Plate *p);
-void over_game(Plate *p,char *m);
+void resoinse(Plate *p);
+void show_result(Plate *p,char *m);
+void win_game(Plate *p);
 void pause_game(GtkWidget *btn,gpointer d);
-void set_map_snake(GtkWidget *dr,cairo_t *cr,Plate *p);
-gboolean expose(GtkWidget *w,cairo_t *cr,Plate *p);
-void showscore(GtkWidget *l,int s);
 void change_mode(GtkWidget *btn,Plate *p);
+void set_map_snake(GtkWidget *dr,cairo_t *cr,Plate *p);
+void show_score(GtkWidget *l,int s);
 
 //draw
 void draw(GtkWidget *dr,cairo_t *cr,int row,int col,int w,int h,float r,float g,float b);

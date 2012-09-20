@@ -12,18 +12,17 @@ void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
     p->interval = 150;
     for(i=0;i<SNAKE_NUM;i++){
         p->snake[i].h = 0;
-        p->snake[i].t = 0; }
+        p->snake[i].t = 0; 
+    }
     for(i=0;i<3;i++){
         p->snake[0].color[i][0] = 0;
         p->snake[0].color[i][2] = 0;
         p->snake[1].color[i][0] = 0;
         p->snake[1].color[i][1] = 0;
-        
     }
     p->snake[0].color[0][1] = 1;
     p->snake[0].color[1][1] = 0.73;
     p->snake[0].color[2][1] = 0.58;
-    
     p->snake[1].color[0][2] = 1;
     p->snake[1].color[1][2] = 0.7;
     p->snake[1].color[2][2] = 0.5;
@@ -37,16 +36,16 @@ void new_game(GtkWidget *btn,Plate *p)
         cairo_destroy(p->cr);
     p->cr = gdk_cairo_create(gtk_widget_get_window(p->dr));
     p->state = 1;
+    p->win = 0;
     p->score = 0;
     p->snake[0].dir = 1;
     p->snake[0].dirx = 1;
     p->snake[0].diry = 0;
-    
     p->snake[1].dir = 1;
     p->snake[1].dirx = 1;
     p->snake[1].diry = 0;
     p->score = 0;
-    showscore(p->label,p->score);
+    show_score(p->label,p->score);
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(p->mbtn)))
         p->mode = 2;
     else
@@ -61,7 +60,12 @@ void new_game(GtkWidget *btn,Plate *p)
     food(p);
 }
 
-void over_game(Plate *p,char *m)
+void response(Plate *p){
+    gtk_widget_destroy(p->dialog);
+    if(p->win)
+        new_game(p->btn[0],p);
+}
+void show_result(Plate *p,char *m)
 {
     GtkWidget *area,*label;
     p->dialog = gtk_dialog_new_with_buttons("",NULL,GTK_DIALOG_MODAL,
@@ -69,7 +73,7 @@ void over_game(Plate *p,char *m)
     area = gtk_dialog_get_content_area(GTK_DIALOG(p->dialog));
     label = gtk_label_new(m);
     g_signal_connect_swapped(p->dialog,"response",
-        G_CALLBACK(gtk_widget_destroy),p->dialog);
+        G_CALLBACK(response),p);
     gtk_container_add(GTK_CONTAINER(area),label);
     gtk_widget_show_all(p->dialog);
 }
@@ -110,13 +114,14 @@ void set_map_snake(GtkWidget *dr,cairo_t *cr,Plate *p)
     fscanf(map,"%d %d %d",&i,&j,&k);
     while(j<k)
         push(p,0,i,j++);
-    if(p->mode){
+    if(p->mode==2){
         fscanf(map,"%d %d %d",&i,&j,&k);
         while(j<k)
             push(p,1,i,j++);
     }
     else
         fseek(map,9,SEEK_CUR);
+    fscanf(map,"%d",&p->pass);
     for(i=0;i<MAP_LEN;i++){
         for(j=0;j<MAP_LEN;j++){
             fscanf(map,"%1d",&m[i][j].exist);
@@ -128,7 +133,7 @@ void set_map_snake(GtkWidget *dr,cairo_t *cr,Plate *p)
     }
 }
 
-void showscore(GtkWidget *l,int score)
+void show_score(GtkWidget *l,int score)
 {
     char s[100];
     sprintf(s,"<span font_desc=\"12\"\

@@ -61,16 +61,22 @@ gboolean automove(Plate *p)
     modify(&r,&c);
     if(p->map[r][c].exist){
         p->state = 0;
-        over_game(p,"Game Over");
+        show_result(p,"Game Over");
         return TRUE;
     }
     draw_body(p->dr,p->cr,headr,headc,p->snake[i].color,p->map[headr][headc].dir);
     push(p,i,r,c);
     draw_head(p->dr,p->cr,r,c,p->snake[i].dir,p->snake[i].color);
     if(p->map[r][c].food){
+        p->score += 2;
+        show_score(p->label,p->score);
+        if(p->score>=p->pass){
+            p->state = 0;
+            p->win = 1;
+            show_result(p,"Game Pass");
+            return TRUE;
+        }
         food(p);
-        p->score++;
-        showscore(p->label,p->score);
         if(p->interval>50){
             g_source_remove(p->timeoutid);
             p->interval -= 20;
@@ -99,7 +105,6 @@ gboolean automove(Plate *p)
 gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p)
 {
     guint keyval = ((GdkEventKey *)e)->keyval;
-    printf("%x %d\n",keyval,keyval);
     if(keyval==0x0065)
         gtk_main_quit();
     if(keyval==0x0070)
