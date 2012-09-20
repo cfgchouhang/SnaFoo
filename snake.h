@@ -28,7 +28,7 @@ typedef struct snake{
 }Snake;
 
 typedef struct plate{
-    GtkWidget *dr,*label,*dialog,*mbtn;
+    GtkWidget *dr,*label,*dialog,*mbtn,*btn[3];
     cairo_t *cr;
     guint32 interval;
     guint timeoutid;

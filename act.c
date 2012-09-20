@@ -99,7 +99,14 @@ gboolean automove(Plate *p)
 gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p)
 {
     guint keyval = ((GdkEventKey *)e)->keyval;
-    if(keyval==0xff0d&&p->state!=3)
+    printf("%x %d\n",keyval,keyval);
+    if(keyval==0x0065)
+        gtk_main_quit();
+    if(keyval==0x0070)
+        pause_game(p->btn[1],&p->state);
+    if(keyval==0x0032)
+        change_mode(p->mbtn,p);
+    if(keyval==0x006e&&p->state!=3)
         new_game(w,p);
     if(!p->state||p->state==3)return TRUE;
     while(p->state==2);

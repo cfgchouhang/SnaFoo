@@ -76,12 +76,24 @@ void over_game(Plate *p,char *m)
 
 void pause_game(GtkWidget *btn,gpointer data)
 {
-    Plate *p = (Plate *)data;
-    if(!p->state)return ;
+    int *s = (int *)data;
+    printf("p\n");
+    if(!(*s))return ;
+    printf("pa\n");
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(btn)))
-        p->state = 3;
+        *s = 3;
     else 
-        p->state = 1;
+        *s = 1;
+}
+
+void change_mode(GtkWidget *btn,Plate *p)
+{
+    if(!p->state){
+        if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(btn))) 
+            p->mode = 2;
+        else
+            p->mode = 1;
+    }
 }
 
 void set_map_snake(GtkWidget *dr,cairo_t *cr,Plate *p)
@@ -124,12 +136,4 @@ void showscore(GtkWidget *l,int score)
     gtk_label_set_markup(GTK_LABEL(l),s);
 }
 
-void change_mode(GtkWidget *btn,Plate *p)
-{
-    if(!p->state){
-        if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(btn))) 
-            p->mode = 2;
-        else
-            p->mode = 1;
-    }
-}
+

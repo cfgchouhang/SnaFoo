@@ -15,11 +15,13 @@ int main(int argc,char *argv[])
     gtk_window_set_resizable(GTK_WINDOW(window),FALSE);
     
     fixed = gtk_fixed_new();
-    //hbox = gtk_hbox_new(TRUE,15);
     box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,15);
     sbtn = gtk_button_new_with_label("New");
     pbtn = gtk_toggle_button_new_with_label("Pause");
     ebtn = gtk_button_new_with_label("End");
+    plate.btn[0] = sbtn;
+    plate.btn[1] = pbtn;
+    plate.btn[2] = ebtn;
     plate.mbtn = gtk_toggle_button_new_with_label("2P");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pbtn),FALSE);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(plate.mbtn),FALSE);
@@ -41,15 +43,14 @@ int main(int argc,char *argv[])
                      G_CALLBACK(gtk_main_quit),NULL);
     g_signal_connect(G_OBJECT(window),"key-press-event",
                      G_CALLBACK(key_press),&plate);
-
     g_signal_connect(sbtn,"clicked",
                      G_CALLBACK(new_game),&plate);
-    g_signal_connect(ebtn,"clicked",
-                     G_CALLBACK(gtk_main_quit),NULL);
     g_signal_connect(pbtn,"clicked",
-                     G_CALLBACK(pause_game),&plate);
+                     G_CALLBACK(pause_game),&plate.state);
     g_signal_connect(plate.mbtn,"clicked",
                      G_CALLBACK(change_mode),&plate);
+    g_signal_connect(ebtn,"clicked",
+                     G_CALLBACK(gtk_main_quit),NULL);
 
     gtk_container_add(GTK_CONTAINER(window),fixed);
     gtk_widget_show_all(window);
