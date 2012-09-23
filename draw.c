@@ -8,19 +8,15 @@ void draw(GtkWidget *dr,cairo_t *cr,int x,int y,int w,int h,float r,float g,floa
     gtk_widget_draw(dr,cr);
 }
 
-void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[],int n)
+void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[],int n,Map m[][MAP_LEN])
 {
     int i;
     for(i=0;i<n;i++){
         int h = s[i].h,t = s[i].t+1;
-        /*draw_unit(dr,cr,s[i].posi[h][0]
-                   ,s[i].posi[h][1]
-                   ,0,1.0,0);
-        */
         draw_head(dr,cr,s[i].posi[h][0],s[i].posi[h][1],s[i].dir,s[i].color);
-        
         while(t<h){
-            draw_body(dr,cr,s[i].posi[t][0],s[i].posi[t][1],s[i].color,-1);
+            draw_body(dr,cr,s[i].posi[t][0],s[i].posi[t][1]
+                ,s[i].color,m[s[i].posi[t][0]][s[i].posi[t][1]].dir);
             t++;
         }
     }

@@ -34,7 +34,7 @@ typedef struct plate{
     guint timeoutid;
     Snake snake[2];
     Map map[MAP_LEN][MAP_LEN];
-    int state,keyevent;
+    int state,keyevent,inmenu;
     int score,mode,pass,win;
 }Plate;
 
@@ -43,7 +43,7 @@ void init_plate(Plate *p,GtkWidget *fixed,int w,int h);
 void new_game(GtkWidget *btn,Plate *p);
 void resoinse(Plate *p);
 void show_result(Plate *p,char *m);
-void win_game(Plate *p);
+void win_game();
 void pause_game(GtkWidget *btn,gpointer d);
 void change_mode(GtkWidget *btn,Plate *p);
 void set_map_snake(GtkWidget *dr,cairo_t *cr,Plate *p);
@@ -51,7 +51,7 @@ void show_score(GtkWidget *l,int s);
 
 //draw
 void draw(GtkWidget *dr,cairo_t *cr,int row,int col,int w,int h,float r,float g,float b);
-void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[],int n);
+void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[],int n,Map m[][MAP_LEN]);
 void draw_head(GtkWidget *dr,cairo_t *cr,int row,int col,int dir,double rgb[3][3]);
 void draw_body(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir);
 void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir);
@@ -70,3 +70,6 @@ void turn_right(Plate *p,int s);
 void turn_down(Plate *p,int s);
 gboolean food(Plate *p);
 gboolean erasefood(Map m[MAP_LEN][MAP_LEN]);
+//control
+void open_menu(Plate *p);
+void close_menu(Plate *p);

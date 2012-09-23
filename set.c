@@ -9,6 +9,7 @@ void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
     gtk_fixed_put(GTK_FIXED(fixed),p->dr,0,35);
     p->state = 0;
     p->mode = 1;
+    p->inmenu = 0;
     p->interval = 150;
     for(i=0;i<SNAKE_NUM;i++){
         p->snake[i].h = 0;
@@ -32,6 +33,7 @@ void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
 void new_game(GtkWidget *btn,Plate *p)
 {
     int i,j;
+    p->inmenu = 0;
     if(p->cr)
         cairo_destroy(p->cr);
     p->cr = gdk_cairo_create(gtk_widget_get_window(p->dr));
@@ -56,7 +58,7 @@ void new_game(GtkWidget *btn,Plate *p)
     }
     draw(p->dr,p->cr,0,0,WIDTH,HEIGHT,0,0,0);
     set_map_snake(p->dr,p->cr,p);
-    draw_snake(p->dr,p->cr,p->snake,p->mode);
+    draw_snake(p->dr,p->cr,p->snake,p->mode,p->map);
     food(p);
 }
 
@@ -66,7 +68,7 @@ void win_game()
     FILE *o = fopen("./Data/game_state","w");
     char c[10];
     fscanf(s,"%s",c);
-    fprintf(s,"%s%d","map");
+    fprintf(s,"%s","map");
 }
 
 void response(Plate *p){
