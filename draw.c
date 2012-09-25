@@ -5,7 +5,6 @@ void draw(GtkWidget *dr,cairo_t *cr,int x,int y,int w,int h,float r,float g,floa
     cairo_set_source_rgb(cr,r,g,b);
     cairo_rectangle(cr,x,y,w,h);
     cairo_fill(cr);
-    gtk_widget_draw(dr,cr);
 }
 
 void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[],int n,Map m[][MAP_LEN])

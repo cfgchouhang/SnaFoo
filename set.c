@@ -1,12 +1,20 @@
 #include"snake.h"
 
+gboolean draw_plate(GtkWidget *w,cairo_t *cr,gpointer data)
+{
+    Plate *p = (Plate *)data;
+    p->cr = cr;
+    draw(p->dr,p->cr,0,0,WIDTH,HEIGHT,0,0,0);
+    return FALSE;
+}
+
 void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
 {
     int i;
     p->dr = gtk_drawing_area_new();
     gtk_widget_set_size_request(p->dr,w,h);
     gtk_widget_set_app_paintable(p->dr,TRUE);
-    gtk_fixed_put(GTK_FIXED(fixed),p->dr,0,35);
+    gtk_fixed_put(GTK_FIXED(fixed),p->dr,0,0);
     p->state = 0;
     p->mode = 1;
     p->inmenu = 0;
@@ -30,7 +38,7 @@ void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
     
 }
 
-void new_game(GtkWidget *btn,Plate *p)
+void new_game(/*GtkWidget *btn,*/Plate *p)
 {
     int i,j;
     p->inmenu = 0;
@@ -48,10 +56,13 @@ void new_game(GtkWidget *btn,Plate *p)
     p->snake[1].diry = 0;
     p->score = 0;
     show_score(p->label,p->score);
+    p->mode = 1;//temp
+    /*
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(p->mbtn)))
         p->mode = 2;
     else
         p->mode = 1;
+    */
     for(i=0;i<SNAKE_NUM;i++){
         p->snake[i].h = 0;
         p->snake[i].t = 0;
@@ -75,7 +86,7 @@ void response(Plate *p){
     gtk_widget_destroy(p->dialog);
     if(p->win){
        // win_game();
-        new_game(p->btn[0],p);
+        new_game(/*p->btn[0],*/p);
     }
 }
 void show_result(Plate *p,char *m)
@@ -91,25 +102,29 @@ void show_result(Plate *p,char *m)
     gtk_widget_show_all(p->dialog);
 }
 
-void pause_game(GtkWidget *btn,gpointer data)
+void pause_game(/*GtkWidget *btn,*/gpointer data)
 {
     int *s = (int *)data;
-    printf("p\n");
     if(!(*s))return ;
-    printf("pa\n");
+    *s = *s==1 ? 3:1;
+    /*
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(btn)))
         *s = 3;
     else 
         *s = 1;
+    */
 }
 
 void change_mode(GtkWidget *btn,Plate *p)
 {
     if(!p->state){
+        p->mode = p->mode==1 ? 2:1;
+        /*
         if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(btn))) 
             p->mode = 2;
         else
             p->mode = 1;
+        */
     }
 }
 
