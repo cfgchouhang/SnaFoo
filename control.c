@@ -5,7 +5,7 @@ void open_menu(Plate *p) {
     cairo_destroy(p->cr);
     p->cr = gdk_cairo_create(gtk_widget_get_window(p->dr));
     cairo_set_source_rgb(p->cr,1.0,1.0,0);
-    cairo_rectangle(p->cr,190,190,230,220);
+    cairo_rectangle(p->cr,190,190,230,230);
     cairo_fill(p->cr);
     set_menu(p->cr);
     arrow_menu(p->cr,p->menu);
