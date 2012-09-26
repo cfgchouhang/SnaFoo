@@ -34,7 +34,7 @@ typedef struct plate{
     guint timeoutid;
     Snake snake[2];
     Map map[MAP_LEN][MAP_LEN];
-    int state,keyevent,inmenu;
+    int state,keyevent,menu;
     int score,mode,pass,win;
 }Plate;
 
@@ -76,4 +76,6 @@ gboolean erasefood(Map m[MAP_LEN][MAP_LEN]);
 //control
 void open_menu(Plate *p);
 void set_menu(cairo_t *cr);
+void arrow_menu(cairo_t *cr,int opt);
 void close_menu(Plate *p);
+

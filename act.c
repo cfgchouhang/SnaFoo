@@ -106,7 +106,6 @@ gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p)
 {
     guint keyval = ((GdkEventKey *)e)->keyval;
     //printf("%x\n",keyval);
-    
     if(keyval==0x0065)
         gtk_main_quit();
     /*
@@ -118,12 +117,33 @@ gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p)
     if(keyval==0x006e&&p->state!=3)
         new_game(p);
     if(keyval==0xff1b){
-        if(p->inmenu)
+        if(p->state==3)
             close_menu(p);
         else
             open_menu(p);
     }
-    if(!p->state||p->state==3)return TRUE;
+    if(!p->state)return TRUE;
+    if(p->state==3){
+        switch(keyval){
+            case 0xff52:
+                p->menu = !p->menu ? 0:p->menu-1;
+                arrow_menu(p->cr,p->menu);
+                break;
+            case 0xff54:
+                p->menu = p->menu==2 ? 2:p->menu+1;
+                arrow_menu(p->cr,p->menu);
+                break;
+            case 0xff0d:
+                if(!p->menu)
+                    new_game(p);
+                else if(p->menu==1)
+                    ;
+                else if(p->menu==2)
+                    gtk_main_quit();
+                break;
+        }
+        return TRUE;
+    }
     while(p->state==2);
     p->state = 2;
     switch(keyval){
