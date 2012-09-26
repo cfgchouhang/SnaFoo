@@ -10,7 +10,7 @@ gboolean draw_plate(GtkWidget *w,cairo_t *cr,gpointer data)
 
 void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
 {
-    int i;
+    int i,j;
     p->dr = gtk_drawing_area_new();
     gtk_widget_set_size_request(p->dr,w,h);
     gtk_widget_set_app_paintable(p->dr,TRUE);
@@ -29,6 +29,9 @@ void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
         p->snake[1].color[i][0] = 0;
         p->snake[1].color[i][1] = 0;
     }
+    for(i=0;i<30;i++)
+        for(j=0;j<30;j++)
+            p->map[i][j].food = 0;
     p->snake[0].color[0][1] = 1;
     p->snake[0].color[1][1] = 0.73;
     p->snake[0].color[2][1] = 0.58;
