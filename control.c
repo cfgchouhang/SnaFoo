@@ -1,6 +1,7 @@
 #include"snake.h"
 
-void open_menu(Plate *p) {
+void open_menu(Plate *p)
+{
     p->state = 3;
     cairo_destroy(p->cr);
     p->cr = gdk_cairo_create(gtk_widget_get_window(p->dr));
@@ -8,17 +9,21 @@ void open_menu(Plate *p) {
     cairo_rectangle(p->cr,190,190,230,230);
     cairo_fill(p->cr);
     set_menu(p->cr);
-    set_popt(p->cr,p->mode);
+    set_player(p->cr,p->mode);
     arrow_menu(p->cr,p->menu);
 }
 
-void set_popt(cairo_t *cr,int m)
+void set_player(cairo_t *cr,int m)
 {
     cairo_text_extents_t extents;
     char p[4];
     sprintf(p,"%dP",m);
     cairo_select_font_face(cr,"Sans",
         CAIRO_FONT_SLANT_NORMAL,CAIRO_FONT_WEIGHT_NORMAL);
+    cairo_set_source_rgb(cr,1,1,0);
+    cairo_rectangle(cr,360,360,30,30);
+    cairo_fill(cr);
+    cairo_set_source_rgb(cr,0,0,0);
     cairo_move_to(cr,360,390);
     cairo_set_font_size(cr,28);
     cairo_text_extents(cr,p,&extents);
@@ -94,8 +99,8 @@ void close_menu(Plate *p)
         for(j=9;j<21;j++)
             if(!p->map[i][j].exist&&p->map[i][j].food)
                 draw_food(p->dr,p->cr,i,j);
-    p->state = 1;
-    p->mode = p->tmpm;
+    if(p->state)
+        p->state = 1;
 }
 
 gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p)
@@ -139,11 +144,11 @@ gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p)
                 break;
             case 0x0031:
                 p->tmpm = 1;
-                set_popt(p->cr,p->tmpm);
+                set_player(p->cr,p->tmpm);
                 break;
             case 0x0032:
                 p->tmpm = 2;
-                set_popt(p->cr,p->tmpm);
+                set_player(p->cr,p->tmpm);
                 break;
         }
         return TRUE;

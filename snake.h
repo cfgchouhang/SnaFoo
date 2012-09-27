@@ -74,7 +74,7 @@ gboolean food(Plate *p);
 gboolean erasefood(Map m[MAP_LEN][MAP_LEN]);
 //control
 void open_menu(Plate *p);
-void set_popt(cairo_t *cr,int m);
+void set_player(cairo_t *cr,int m);
 void set_menu(cairo_t *cr);
 void arrow_menu(cairo_t *cr,int opt);
 void close_menu(Plate *p);

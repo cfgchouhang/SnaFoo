@@ -88,10 +88,11 @@ void win_game()
 
 void response(Plate *p){
     gtk_widget_destroy(p->dialog);
-    if(p->win){
+    new_game(p);
+    //if(p->win){
        // win_game();
-        new_game(/*p->btn[0],*/p);
-    }
+       // new_game(/*p->btn[0],*/p);
+    //}
 }
 void show_result(Plate *p,char *m)
 {
