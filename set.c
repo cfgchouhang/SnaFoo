@@ -16,7 +16,7 @@ void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
     gtk_widget_set_app_paintable(p->dr,TRUE);
     gtk_fixed_put(GTK_FIXED(fixed),p->dr,0,0);
     p->state = 0;
-    p->mode = 1;
+    p->mode = p->tmpm = 1;
     p->menu = 0;
     p->interval = 150;
     for(i=0;i<SNAKE_NUM;i++){
@@ -44,6 +44,7 @@ void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
 void new_game(/*GtkWidget *btn,*/Plate *p)
 {
     int i,j;
+    p->mode = p->tmpm;
     p->menu = 0;
     if(p->cr)
         cairo_destroy(p->cr);
@@ -59,7 +60,6 @@ void new_game(/*GtkWidget *btn,*/Plate *p)
     p->snake[1].diry = 0;
     p->score = 0;
     show_score(p->label,p->score);
-    p->mode = 1;//temporary
     /*
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(p->mbtn)))
         p->mode = 2;
@@ -74,6 +74,7 @@ void new_game(/*GtkWidget *btn,*/Plate *p)
     set_map_snake(p->dr,p->cr,p);
     draw_snake(p->dr,p->cr,p->snake,p->mode,p->map);
     food(p);
+    printf("%d %d\n",p->mode,p->tmpm);
 }
 
 void win_game()

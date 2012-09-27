@@ -35,7 +35,7 @@ typedef struct plate{
     Snake snake[2];
     Map map[MAP_LEN][MAP_LEN];
     int state,keyevent,menu;
-    int score,mode,pass,win;
+    int score,mode,tmpm,pass,win;
 }Plate;
 
 //set
@@ -66,7 +66,6 @@ int push(Plate *p,int s,int row,int col);
 int pop(Plate *p,int s);
 void modify(int *r,int *c);
 gboolean automove(Plate *p);
-gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p);
 void turn_left(Plate *p,int s);
 void turn_up(Plate *p,int s);
 void turn_right(Plate *p,int s);
@@ -75,7 +74,8 @@ gboolean food(Plate *p);
 gboolean erasefood(Map m[MAP_LEN][MAP_LEN]);
 //control
 void open_menu(Plate *p);
+void set_popt(cairo_t *cr,int m);
 void set_menu(cairo_t *cr);
 void arrow_menu(cairo_t *cr,int opt);
 void close_menu(Plate *p);
-
+gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p);
