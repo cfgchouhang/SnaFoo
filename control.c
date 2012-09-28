@@ -2,7 +2,9 @@
 
 void open_menu(Plate *p)
 {
-    p->state = 3;
+    p->inmenu = 1;
+    if(p->state)
+        p->state = 3;
     cairo_destroy(p->cr);
     p->cr = gdk_cairo_create(gtk_widget_get_window(p->dr));
     cairo_set_source_rgb(p->cr,1.0,1.0,0);
@@ -94,19 +96,22 @@ void close_menu(Plate *p)
     cairo_set_source_rgb(p->cr,0,0,0);
     cairo_rectangle(p->cr,190,190,230,230);
     cairo_fill(p->cr);
-    draw_snake(p->dr,p->cr,p->snake,p->mode,p->map);
-    for(i=9;i<21;i++)
-        for(j=9;j<21;j++)
-            if(!p->map[i][j].exist&&p->map[i][j].food)
-                draw_food(p->dr,p->cr,i,j);
+    if(p->state){
+        draw_snake(p->dr,p->cr,p->snake,p->mode,p->map);
+        for(i=9;i<21;i++)
+            for(j=9;j<21;j++)
+                if(!p->map[i][j].exist&&p->map[i][j].food)
+                    draw_food(p->dr,p->cr,i,j);
+    }
     if(p->state)
         p->state = 1;
+    p->inmenu = 0;
 }
 
 gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p)
 {
     guint keyval = ((GdkEventKey *)e)->keyval;
-    printf("%x\n",keyval);
+    //printf("%x\n",keyval);
     if(keyval==0x0065)
         gtk_main_quit();
     /*
@@ -118,13 +123,13 @@ gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p)
     if(keyval==0x006e&&p->state!=3)
         new_game(p);
     if(keyval==0xff1b){
-        if(p->state==3)
+        if(p->inmenu)
             close_menu(p);
         else
             open_menu(p);
     }
-    if(!p->state)return TRUE;
-    if(p->state==3){
+    //if(!p->state)return TRUE;
+    if(p->inmenu){
         switch(keyval){
             case 0xff52:
                 p->menu = !p->menu ? 0:p->menu-1;

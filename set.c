@@ -1,13 +1,5 @@
 #include"snake.h"
 
-gboolean draw_plate(GtkWidget *w,cairo_t *cr,gpointer data)
-{
-    Plate *p = (Plate *)data;
-    p->cr = cr;
-    draw(p->dr,p->cr,0,0,WIDTH,HEIGHT,0,0,0);
-    return FALSE;
-}
-
 void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
 {
     int i,j;
@@ -18,6 +10,7 @@ void init_plate(Plate *p,GtkWidget *fixed,int w,int h)
     p->state = 0;
     p->mode = p->tmpm = 1;
     p->menu = 0;
+    p->inmenu = 0;
     p->interval = 150;
     for(i=0;i<SNAKE_NUM;i++){
         p->snake[i].h = 0;
@@ -46,6 +39,7 @@ void new_game(/*GtkWidget *btn,*/Plate *p)
     int i,j;
     p->mode = p->tmpm;
     p->menu = 0;
+    p->inmenu = 0;
     if(p->cr)
         cairo_destroy(p->cr);
     p->cr = gdk_cairo_create(gtk_widget_get_window(p->dr));
@@ -70,7 +64,7 @@ void new_game(/*GtkWidget *btn,*/Plate *p)
         p->snake[i].h = 0;
         p->snake[i].t = 0;
     }
-    draw(p->dr,p->cr,0,0,WIDTH,HEIGHT,0,0,0);
+    draw(p->cr,0,0,WIDTH,HEIGHT,0,0,0);
     set_map_snake(p->dr,p->cr,p);
     draw_snake(p->dr,p->cr,p->snake,p->mode,p->map);
     food(p);

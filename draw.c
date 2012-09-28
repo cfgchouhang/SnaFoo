@@ -1,10 +1,16 @@
 #include"snake.h"
 
-void draw(GtkWidget *dr,cairo_t *cr,int x,int y,int w,int h,float r,float g,float b)
+void draw(cairo_t *cr,int x,int y,int w,int h,float r,float g,float b)
 {
     cairo_set_source_rgb(cr,r,g,b);
     cairo_rectangle(cr,x,y,w,h);
     cairo_fill(cr);
+}
+
+void draw_plate(GtkWidget *w,cairo_t *cr,gpointer data)
+{
+    Plate *p = (Plate *)data;
+    draw(cr,0,0,WIDTH,HEIGHT,0,0,0);
 }
 
 void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[],int n,Map m[][MAP_LEN])

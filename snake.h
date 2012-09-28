@@ -34,7 +34,7 @@ typedef struct plate{
     guint timeoutid;
     Snake snake[2];
     Map map[MAP_LEN][MAP_LEN];
-    int state,keyevent,menu;
+    int state,keyevent,menu,inmenu;
     int score,mode,tmpm,pass,win;
 }Plate;
 
@@ -52,8 +52,8 @@ void set_map_snake(GtkWidget *dr,cairo_t *cr,Plate *p);
 void show_score(GtkWidget *l,int s);
 
 //draw
-gboolean draw_plate(GtkWidget *w,cairo_t *cr,gpointer data);
-void draw(GtkWidget *dr,cairo_t *cr,int row,int col,int w,int h,float r,float g,float b);
+void draw_plate(GtkWidget *w,cairo_t *cr,gpointer data);
+void draw(cairo_t *cr,int row,int col,int w,int h,float r,float g,float b);
 void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[],int n,Map m[][MAP_LEN]);
 void draw_head(GtkWidget *dr,cairo_t *cr,int row,int col,int dir,double rgb[3][3]);
 void draw_body(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir);

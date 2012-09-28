@@ -45,7 +45,7 @@ int main(int argc,char *argv[])
                      G_CALLBACK(gtk_main_quit),NULL);
     g_signal_connect(G_OBJECT(window),"key-press-event",
                      G_CALLBACK(key_press),&plate);
-    //g_signal_connect(G_OBJECT(plate.dr),"draw",G_CALLBACK(draw_plate),&plate);
+    g_signal_connect(G_OBJECT(plate.dr),"draw",G_CALLBACK(draw_plate),&plate);
     /*
     g_signal_connect(sbtn,"clicked",
                      G_CALLBACK(new_game),&plate);
@@ -59,7 +59,6 @@ int main(int argc,char *argv[])
     gtk_container_add(GTK_CONTAINER(window),fixed);
     gtk_widget_show_all(window);
     plate.cr = gdk_cairo_create(gtk_widget_get_window(plate.dr));
-    draw(plate.dr,plate.cr,0,0,WIDTH,HEIGHT,0,0,0);
     plate.timeoutid = 
         g_timeout_add(plate.interval,(GSourceFunc)automove,&plate);
     gtk_main();
