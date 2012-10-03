@@ -40,8 +40,6 @@ void new_game(/*GtkWidget *btn,*/Plate *p)
     p->mode = p->tmpm;
     p->menu = 0;
     p->inmenu = 0;
-    if(p->cr)
-        cairo_destroy(p->cr);
     p->cr = gdk_cairo_create(gtk_widget_get_window(p->dr));
     p->state = 1;
     p->win = 0;
@@ -68,7 +66,6 @@ void new_game(/*GtkWidget *btn,*/Plate *p)
     set_map_snake(p->dr,p->cr,p);
     draw_snake(p->dr,p->cr,p->snake,p->mode,p->map);
     food(p);
-    printf("%d %d\n",p->mode,p->tmpm);
 }
 
 void win_game()

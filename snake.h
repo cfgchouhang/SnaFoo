@@ -39,8 +39,7 @@ typedef struct plate{
 }Plate;
 
 //set
-void init_plate(Plate *p,GtkWidget *fixed,int w,int h);
-//void new_game(GtkWidget *btn,Plate *p);
+void init_plate(Plate *p,GtkWidget *fixed,int w,int h); //void new_game(GtkWidget *btn,Plate *p);
 void new_game(Plate *p);
 void response(Plate *p);
 void show_result(Plate *p,char *m);
@@ -73,7 +72,7 @@ void turn_down(Plate *p,int s);
 gboolean food(Plate *p);
 gboolean erasefood(Map m[MAP_LEN][MAP_LEN]);
 //control
-void open_menu(Plate *p);
+void open_menu(Plate *p,cairo_t *cr);
 void set_player(cairo_t *cr,int m);
 void set_menu(cairo_t *cr);
 void arrow_menu(cairo_t *cr,int opt);

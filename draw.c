@@ -11,6 +11,7 @@ void draw_plate(GtkWidget *w,cairo_t *cr,gpointer data)
 {
     Plate *p = (Plate *)data;
     draw(cr,0,0,WIDTH,HEIGHT,0,0,0);
+    open_menu(p,cr);
 }
 
 void draw_snake(GtkWidget *dr,cairo_t *cr,Snake s[],int n,Map m[][MAP_LEN])
@@ -36,7 +37,6 @@ void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int di
         draw_unit(dr,cr,row,col,rgb[0][0],rgb[0][1],rgb[0][2]);
     else{
     draw_unit(dr,cr,row,col,0,0,0);
-    cairo_destroy(cr);
     cr = gdk_cairo_create(gtk_widget_get_window(dr));
     cairo_set_source_rgb(cr,rgb[0][0],rgb[0][1],rgb[0][2]);
     if(!dir){
@@ -81,6 +81,7 @@ void draw_turn(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int di
 void draw_body(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int dir)
 {
     int posi[5][2];
+    cr = gdk_cairo_create(gtk_widget_get_window(dr));
     draw_turn(dr,cr,row,col,rgb,dir);
     row *= UNIT;
     col *= UNIT;
@@ -94,7 +95,6 @@ void draw_body(GtkWidget *dr,cairo_t *cr,int row,int col,double rgb[3][3],int di
 
 void draw_head(GtkWidget *dr,cairo_t *cr,int row,int col,int dir,double rgb[3][3])
 {
-    cairo_destroy(cr);
     cr = gdk_cairo_create(gtk_widget_get_window(dr));
     int posi[10][2];
     row *= UNIT;
@@ -196,7 +196,6 @@ void draw_detail(cairo_t *cr,int posi[][2],double color[3])
 
 void draw_unit(GtkWidget *dr,cairo_t *cr,int row,int col,float r,float g,float b)
 {
-    cairo_destroy(cr);
     cr = gdk_cairo_create(gtk_widget_get_window(dr));
     cairo_set_source_rgb(cr,r,g,b);
     cairo_rectangle(cr,col,row,UNIT,UNIT);
