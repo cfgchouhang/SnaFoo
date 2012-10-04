@@ -1,9 +1,10 @@
-*Sna*ke*Foo*d
+SnaFoo
 ======
+SnakeFood
 A simple game developed by C, Gtk3
-
-*Install*
-
+<dl>
+  <dt>Install</dt>
+</dl>
 <pre>
     apt-get install libtk-3-dev
     make
