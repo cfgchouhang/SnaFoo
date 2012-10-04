@@ -1,7 +1,7 @@
 SnaFoo
 ======
 
-SnakeFood
+SnakeFood 
 A simple game developed by C, Gtk3
 
 **Install**
