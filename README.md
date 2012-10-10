@@ -9,4 +9,5 @@ A simple game developed by C, Gtk3
 <pre>
     apt-get install libtk-3-dev
     make
+    ./snake
 </pre>
