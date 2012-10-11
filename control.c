@@ -142,8 +142,13 @@ gboolean key_press(GtkWidget *w,GdkEvent *e,Plate *p)
                 arrow_menu(p->cr,p->menu);
                 break;
             case 0xff0d:
-                if(!p->menu)
+                if(!p->menu){
+                    g_source_remove(p->timeoutid);
+                    p->interval = 150;
+                    p->timeoutid =
+                    g_timeout_add(p->interval,(GSourceFunc)automove,p);
                     new_game(p);
+                }
                 else if(p->menu==1)
                     ;
                 else if(p->menu==2)
